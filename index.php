@@ -46,14 +46,22 @@ function setVSmArrayToImage($image,$angle,  $text, $pupil) {
       imagettftext($im, 15, $angle, 505, 30, $color, $font, $pupil[1]); //фио
      
    //и перебор значений массива оценок
-    $i=0;
+    $i=0; 
     foreach ($text as $key => $val) {
       //  imagettftext($im, 20, $angle, 0, $i*30, $color, $font, $key);
         $j=0;
         foreach($val as $t)
         { 
+           if($i==8 || $j==7)
+               $font = 'arialbd.ttf';
+           else 
+               $font = 'arial.ttf';
+            if($i==8 && $j==7)
+               $size = 12;
+           else 
+               $size=10;
            
-          imagettftext($im, 10, $angle, 280+48*$j, 106+$i*38, $color, $font, $t);
+          imagettftext($im, $size, $angle, 280+48*$j, 106+$i*38, $color, $font, $t);
           $j++; 
         }
         $i++;
