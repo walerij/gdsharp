@@ -5,8 +5,8 @@
 function setVSArrayToImage($image,$angle,  $text) {
 
     // Создание изображения
-    // мы создаем его из файла nadja.jpg
-    $im = imagecreatefromjpeg($image);
+   
+    $im = imagecreatefrompng($image);
     // Создание цвета
     $color = imagecolorallocate($im, 255, 255, 255);
   
@@ -43,7 +43,7 @@ function setVSmArrayToImage($image,$angle,  $text, $pupil) {
     //впендюривание данных о формулисте
      imagettftext($im, 15, $angle, 336, 30, $color, $font, $pupil[2]); //тек дата
      imagettftext($im, 15, $angle, 470, 30, $color, $font, $pupil[0]); //номур
-      imagettftext($im, 15, $angle, 505, 30, $color, $font, $pupil[1]); //фио
+     imagettftext($im, 15, $angle, 505, 30, $color, $font, $pupil[1]); //фио
      
    //и перебор значений массива оценок
     $i=0; 
@@ -73,26 +73,24 @@ header('Content-Type: image/png');
 $pupil = array('791','Валерий Ждунов', date('d.m.Y'));
 
 $array_2 =array(
-    'Проверены отчеты'=>array('5','5','5','5','5','5','5','35'),
-    'Написан ответ'=>array('5','5','5','5','5','5','5','35'),
-    'Набран текст'=>array('5','5','5','5','5','5','5','35'),
-    'Решена задача'=>array('5','5','5','5','5','5','5','35'),
-    'Выполнен видеоурок'=>array('5','5','5','5','5','5','5','35'),
-    'Ежедневный бонус'=>array('5','5','5','5','5','5','5','35'),
-    'Опубликовано в соцсетях'=>array('5','5','5','5','5','5','5','35'),
-    'Собрано мегахешей'=>array('5','5','5','5','5','5','5','35'),
-    'Итого:'=>array('35','35','35','35','35','35','35','245'),
+    '0'=>array('5','5','5','5','5','5','5','35'),
+    '1'=>array('5','5','5','5','5','5','5','35'),
+    '2'=>array('5','5','5','5','5','5','5','35'),
+    '3'=>array('5','5','5','5','5','5','5','35'),
+    '4'=>array('5','5','5','5','5','5','5','35'),
+    '5'=>array('5','5','5','5','5','5','5','35'),
+    '6'=>array('5','5','5','5','5','5','5','35'),
+    '7'=>array('5','5','5','5','5','5','5','35'),
+    '8'=>array('35','35','35','35','35','35','35','245'),
 );
 
 
-$im= setVSmArrayToImage('obr.jpg', 0, $array_2,$pupil);
-// $im = setTextToImage(0,11, 20,$array_);
+$im= setVSmArrayToImage('obr.png', 0, $array_2,$pupil);
 
+//выходной файл
+$out_im='outfile.png';
 
-
-// Текст
-//imagettftext($im, 20, 0, 10, 20, $black, $font, $text);
-
-imagepng($im);
+//сохранение в файл
+imagepng($im,$out_im);
 imagedestroy($im);
 ?>
