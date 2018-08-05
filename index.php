@@ -6,42 +6,22 @@
 
 
 
-function setVSArrayToImage($image,$angle,  $text) {
-
-    // Создание изображения
-   
-    $im = imagecreatefrompng($image);
-    // Создание цвета
-    $color = imagecolorallocate($im, 255, 255, 255);
-  
- 
-    //  $text = массив с текстом вида '20'=> 'апполон', '60'=>'Союз', '100'=>'Мир'
-    // Замена пути к шрифту на пользовательский - иначе не прокатит
-    $font = 'arial.ttf';
-
-   //и перебор значений массива
-    $i=1;
-    foreach ($text as $key => $val) {
-        imagettftext($im, 20, $angle, 0, $i*30, $color, $font, $key);
-        imagettftext($im, 20, $angle, 500, $i*30, $color, $font, $val);
-        $i++;
-    }
-    return $im;
-}
 
 
-function setVSmArrayToImage($image,  $text, $pupil, $out_image) {
+
+
+function setVSmArrayToImage($image,  $text, $pupil, $out_image, $path) {
 
     // Создание изображения
     // мы создаем его из файла nadja.jpg
-    $im = imagecreatefrompng($image);
+    $im = imagecreatefrompng($path.$image);
     // Создание цвета
     $color = imagecolorallocate($im, 0, 0, 0);
   
  
     //  $text = массив с текстом вида '20'=> 'апполон', '60'=>'Союз', '100'=>'Мир'
     // Замена пути к шрифту на пользовательский - иначе не прокатит
-    $font = 'arial.ttf';
+    $font = $path.'arial.ttf';
 
     
     //впендюривание данных о формулисте
@@ -57,9 +37,9 @@ function setVSmArrayToImage($image,  $text, $pupil, $out_image) {
         foreach($val as $t)
         { 
            if($i==8 || $j==7)
-               $font = 'arialbd.ttf';
+               $font = $path.'arialbd.ttf';
            else 
-               $font = 'arial.ttf';
+               $font = $path.'arial.ttf';
             if($i==8 && $j==7)
                $size = 12;
            else 
@@ -71,7 +51,7 @@ function setVSmArrayToImage($image,  $text, $pupil, $out_image) {
         $i++;
     }
     
-    imagepng($im,$out_image);
+    imagepng($im,$path.$out_image);
   
 }
 // Тип содержимого
@@ -92,13 +72,16 @@ $array_2 =array(
     '8'=>array('35','35','35','35','35','35','35','245'),
 );
 
+
+//путь к папке, где шрифты, фоновая картинка и выводимый файл
+$path='source\\';
 //получение и сохранение изображения в файл out_.png
-setVSmArrayToImage('obr.png',  $array_2, $pupil, 'out_.png');
+setVSmArrayToImage('obr.png',  $array_2, $pupil, 'out_.png', $path);
 
 
 
 
 echo 'Вот ваш файл <br>';
-echo '<img src="out_.png" alt="no" />';
+echo '<img src="'.$path.'out_.png" alt="no" />';
 
 ?>
