@@ -1,24 +1,5 @@
 <?php
 
-function setTextToImage($angle, $x, $y, $text) {
-
-    // Создание изображения
-    // мы создаем его из файла nadja.jpg
-    $im = imagecreatefromjpeg('nadja.jpg');
-    // Создание цвета
-    $color = imagecolorallocate($im, 255, 255, 255);
-  
- 
-    //  $text = массив с текстом вида '20'=> 'апполон', '60'=>'Союз', '100'=>'Мир'
-    // Замена пути к шрифту на пользовательский - иначе не прокатит
-    $font = 'arial.ttf';
-
-   //и перебор значений массива
-    foreach ($text as $key => $val) {
-        imagettftext($im, 20, $angle, $x, $key, $color, $font, $val);
-    }
-    return $im;
-}
 
 
 function setVSArrayToImage($image,$angle,  $text) {
@@ -43,19 +24,60 @@ function setVSArrayToImage($image,$angle,  $text) {
     }
     return $im;
 }
+
+
+function setVSmArrayToImage($image,$angle,  $text, $pupil) {
+
+    // Создание изображения
+    // мы создаем его из файла nadja.jpg
+    $im = imagecreatefromjpeg($image);
+    // Создание цвета
+    $color = imagecolorallocate($im, 0, 0, 0);
+  
+ 
+    //  $text = массив с текстом вида '20'=> 'апполон', '60'=>'Союз', '100'=>'Мир'
+    // Замена пути к шрифту на пользовательский - иначе не прокатит
+    $font = 'arial.ttf';
+
+    
+    //впендюривание данных о формулисте
+     imagettftext($im, 15, $angle, 336, 30, $color, $font, $pupil[2]); //тек дата
+     imagettftext($im, 15, $angle, 470, 30, $color, $font, $pupil[0]); //номур
+      imagettftext($im, 15, $angle, 505, 30, $color, $font, $pupil[1]); //фио
+     
+   //и перебор значений массива оценок
+    $i=0;
+    foreach ($text as $key => $val) {
+      //  imagettftext($im, 20, $angle, 0, $i*30, $color, $font, $key);
+        $j=0;
+        foreach($val as $t)
+        { 
+           
+          imagettftext($im, 10, $angle, 280+48*$j, 106+$i*38, $color, $font, $t);
+          $j++; 
+        }
+        $i++;
+    }
+    return $im;
+}
 // Тип содержимого
 header('Content-Type: image/png');
-$array_ = array('20'=> 'апполон', '60'=>'Союз', '100'=>'Мир');
+$pupil = array('791','Валерий Ждунов', date('d.m.Y'));
 
-$array_1 =array(
-    'Проверка отчетов'=>'20',
-    'Видеоуроки'=>'5',
-    'Решение консольных задач'=>'3',
-   
-    
+$array_2 =array(
+    'Проверены отчеты'=>array('5','5','5','5','5','5','5','35'),
+    'Написан ответ'=>array('5','5','5','5','5','5','5','35'),
+    'Набран текст'=>array('5','5','5','5','5','5','5','35'),
+    'Решена задача'=>array('5','5','5','5','5','5','5','35'),
+    'Выполнен видеоурок'=>array('5','5','5','5','5','5','5','35'),
+    'Ежедневный бонус'=>array('5','5','5','5','5','5','5','35'),
+    'Опубликовано в соцсетях'=>array('5','5','5','5','5','5','5','35'),
+    'Собрано мегахешей'=>array('5','5','5','5','5','5','5','35'),
+    'Итого:'=>array('35','35','35','35','35','35','35','245'),
 );
 
-$im= setVSArrayToImage('obl.jpg', 0, $array_1);
+
+$im= setVSmArrayToImage('obr.jpg', 0, $array_2,$pupil);
 // $im = setTextToImage(0,11, 20,$array_);
 
 
