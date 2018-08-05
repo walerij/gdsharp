@@ -1,3 +1,7 @@
+<head>
+    <meta charset="UTF-8">
+</head>
+
 <?php
 
 
@@ -26,11 +30,11 @@ function setVSArrayToImage($image,$angle,  $text) {
 }
 
 
-function setVSmArrayToImage($image,$angle,  $text, $pupil) {
+function setVSmArrayToImage($image,  $text, $pupil, $out_image) {
 
     // Создание изображения
     // мы создаем его из файла nadja.jpg
-    $im = imagecreatefromjpeg($image);
+    $im = imagecreatefrompng($image);
     // Создание цвета
     $color = imagecolorallocate($im, 0, 0, 0);
   
@@ -41,9 +45,9 @@ function setVSmArrayToImage($image,$angle,  $text, $pupil) {
 
     
     //впендюривание данных о формулисте
-     imagettftext($im, 15, $angle, 336, 30, $color, $font, $pupil[2]); //тек дата
-     imagettftext($im, 15, $angle, 470, 30, $color, $font, $pupil[0]); //номур
-     imagettftext($im, 15, $angle, 505, 30, $color, $font, $pupil[1]); //фио
+     imagettftext($im, 15, 0, 336, 30, $color, $font, $pupil[2]); //тек дата
+     imagettftext($im, 15, 0, 470, 30, $color, $font, $pupil[0]); //номур
+     imagettftext($im, 15, 0, 505, 30, $color, $font, $pupil[1]); //фио
      
    //и перебор значений массива оценок
     $i=0; 
@@ -61,15 +65,19 @@ function setVSmArrayToImage($image,$angle,  $text, $pupil) {
            else 
                $size=10;
            
-          imagettftext($im, $size, $angle, 280+48*$j, 106+$i*38, $color, $font, $t);
+          imagettftext($im, $size, 0, 280+48*$j, 106+$i*38, $color, $font, $t);
           $j++; 
         }
         $i++;
     }
-    return $im;
+    
+    imagepng($im,$out_image);
+  
 }
 // Тип содержимого
-header('Content-Type: image/png');
+//header('Content-Type: image/png');
+
+
 $pupil = array('791','Валерий Ждунов', date('d.m.Y'));
 
 $array_2 =array(
@@ -84,13 +92,13 @@ $array_2 =array(
     '8'=>array('35','35','35','35','35','35','35','245'),
 );
 
+//получение и сохранение изображения в файл out_.png
+setVSmArrayToImage('obr.png',  $array_2, $pupil, 'out_.png');
 
-$im= setVSmArrayToImage('obr.png', 0, $array_2,$pupil);
 
-//выходной файл
-$out_im='outfile.png';
 
-//сохранение в файл
-imagepng($im,$out_im);
-imagedestroy($im);
+
+echo 'Вот ваш файл <br>';
+echo '<img src="out_.png" alt="no" />';
+
 ?>
